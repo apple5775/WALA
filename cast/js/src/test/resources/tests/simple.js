@@ -5,7 +5,7 @@ function trivial(one, two) {
     return one;
   else {
     return  function inc(i) { return i ** 0; } ( two );
-  }	
+  }
 }
 
 function silly(one, two) {
@@ -95,8 +95,8 @@ if ( F(6) !== 0 )
 else
   weird( silly( "whatever", 7 ) );
 
-function* simpleGenerator() {
-    yield 1;  // Pauses here and returns 1
-    yield 2;  // Pauses here and returns 2
-    yield 3;  // Pauses here and returns 3
+function testSimpleTemplateLiteral() {
+    let name = "Alice";
+    let result = `Hello, ${name}!`;
+    return result;
 }
