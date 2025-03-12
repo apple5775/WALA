@@ -54,6 +54,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import org.mozilla.javascript.CompilerEnvirons;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Kit;
@@ -125,7 +126,6 @@ import org.mozilla.javascript.ast.XmlPropRef;
 import org.mozilla.javascript.ast.XmlRef;
 import org.mozilla.javascript.ast.XmlString;
 import org.mozilla.javascript.ast.Yield;
-import org.mozilla.javascript.Context;
 
 public class RhinoToAstTranslator implements TranslatorToCAst {
 
@@ -734,7 +734,7 @@ public class RhinoToAstTranslator implements TranslatorToCAst {
 
     @Override
     public CAstNode visitAstRoot(AstRoot node, WalkContext arg) {
-      return visitScriptNode((ScriptNode) node, arg);
+      return visitScriptNode(node, arg);
     }
 
     @Override
@@ -1350,37 +1350,6 @@ public class RhinoToAstTranslator implements TranslatorToCAst {
         AstNode value = node.getLeft();
         AstNode type = node.getRight();
         return Ast.makeNode(CAstNode.INSTANCEOF, visit(value, arg), visit(type, arg));
-
-      } else if (node.getType() == Token.EXP) {
-        AstNode base = node.getLeft();
-        AstNode exponent = node.getRight();
-        // Check if exponent is number...
-        if (exponent.getType() == Token.NUMBER) {
-          double expAsDouble = exponent.getDouble();
-          int expAsInt = (int) expAsDouble;
-          // if exponent is non-negative integer, return for loop AST
-          // otherwise the infix expression will be evaluated as a default binary expression
-          if (expAsDouble == expAsInt && expAsInt >= 0) {
-            List<CAstNode> nodes = new ArrayList<>();
-            for (var i = 0; i < expAsInt; i++) {
-              // So this doesn't work because you can't re-use the same node...
-              nodes.add(Ast.makeNode(
-                  CAstNode.BINARY_EXPR,
-                  translateOpcode(Token.MUL),
-                  visit(base, arg),
-                  visit(base, arg)));
-            }
-            System.err.println("TEST: " + base.toString() + " " + exponent.getDouble());
-            return Ast.makeNode(nodes.isEmpty() ? CAstNode.EMPTY : CAstNode.BLOCK_STMT, nodes);
-          }
-        }
-        return Ast.makeNode(
-            CAstNode.BINARY_EXPR,
-            translateOpcode(node.getOperator()),
-            visit(node.getLeft(), arg),
-            visit(node.getRight(), arg));
-
-
       } else {
         return Ast.makeNode(
             CAstNode.BINARY_EXPR,
@@ -1635,10 +1604,11 @@ public class RhinoToAstTranslator implements TranslatorToCAst {
       return Ast.makeConstant(node.getValue());
     }
 
+    @Override
     public CAstNode visitTemplateLiteral(TemplateLiteral node, WalkContext arg) {
       List<AstNode> elements = node.getElements();
       if (elements.size() == 1) {
-          return this.visit(elements.get(0), arg);
+        return this.visit(elements.get(0), arg);
       }
       CAstNode lastBinaryNode =
           Ast.makeNode(
@@ -1653,14 +1623,16 @@ public class RhinoToAstTranslator implements TranslatorToCAst {
                 translateOpcode(Token.ADD),
                 visit(elements.get(i), arg),
                 lastBinaryNode);
-        }
+      }
       return lastBinaryNode;
     }
 
-    public CAstNode visitTaggedTemplateLiteral(TaggedTemplateLiteral node, WalkContext arg){
+    @Override
+    public CAstNode visitTaggedTemplateLiteral(TaggedTemplateLiteral node, WalkContext arg) {
       // TODO Auto-generated method stub
       return null;
     }
+
     @Override
     public CAstNode visitThrowStatement(ThrowStatement n, WalkContext context) {
       CAstNode catchNode = context.getCatchTarget();

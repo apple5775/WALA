@@ -1,10 +1,9 @@
-
 function trivial(one, two) {
   var local = two + 7;
   if (local > 5)
     return one;
   else {
-    return  function inc(i) { return i ** 0; } ( two );
+    return  function inc(i) { return i + 1; } ( two );
   }
 }
 
@@ -94,9 +93,3 @@ if ( F(6) !== 0 )
   bad(4, 5);
 else
   weird( silly( "whatever", 7 ) );
-
-function testSimpleTemplateLiteral() {
-    let name = "Alice";
-    let result = `Hello, ${name}!`;
-    return result;
-}

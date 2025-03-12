@@ -161,11 +161,11 @@ public abstract class TypedNodeVisitor<R, A> {
       return visitSwitchCase((SwitchCase) node, arg);
     } else if (node instanceof SwitchStatement) {
       return visitSwitchStatement((SwitchStatement) node, arg);
-    } else if (node instanceof TaggedTemplateLiteral){
+    } else if (node instanceof TaggedTemplateLiteral) {
       return visitTaggedTemplateLiteral((TaggedTemplateLiteral) node, arg);
     } else if (node instanceof TemplateCharacters) {
       return visitTemplateCharacters((TemplateCharacters) node, arg);
-    } else if (node instanceof TemplateLiteral){
+    } else if (node instanceof TemplateLiteral) {
       return visitTemplateLiteral((TemplateLiteral) node, arg);
     } else if (node instanceof ThrowStatement) {
       return visitThrowStatement((ThrowStatement) node, arg);
