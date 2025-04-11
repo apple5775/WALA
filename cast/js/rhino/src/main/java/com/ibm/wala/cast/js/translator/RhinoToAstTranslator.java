@@ -54,6 +54,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import org.mozilla.javascript.CompilerEnvirons;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Kit;
@@ -251,6 +252,8 @@ public class RhinoToAstTranslator implements TranslatorToCAst {
       case Token.MUL:
       case Token.ASSIGN_MUL:
         return CAstOperator.OP_MUL;
+      case Token.EXP:
+        return CAstOperator.OP_POW;
       case Token.RSH:
       case Token.ASSIGN_RSH:
         return CAstOperator.OP_RSH;
@@ -2758,6 +2761,7 @@ public class RhinoToAstTranslator implements TranslatorToCAst {
 
     CAstErrorReporter reporter = new CAstErrorReporter();
     CompilerEnvirons compilerEnv = new CompilerEnvirons();
+    compilerEnv.setLanguageVersion(Context.VERSION_ES6);
     compilerEnv.setErrorReporter(reporter);
     compilerEnv.setReservedKeywordAsIdentifier(true);
     compilerEnv.setIdeMode(true);
