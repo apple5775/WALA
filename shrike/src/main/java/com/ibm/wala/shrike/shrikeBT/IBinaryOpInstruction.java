@@ -24,7 +24,6 @@ public interface IBinaryOpInstruction extends IInstruction {
     MUL,
     DIV,
     REM,
-    POW,
     AND,
     OR,
     XOR;

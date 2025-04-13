@@ -3300,7 +3300,6 @@ public abstract class AstTranslator extends CAstVisitor<AstTranslator.WalkContex
     else if (op == CAstOperator.OP_LSH) return ShiftInstruction.Operator.SHL;
     else if (op == CAstOperator.OP_MOD) return BinaryOpInstruction.Operator.REM;
     else if (op == CAstOperator.OP_MUL) return BinaryOpInstruction.Operator.MUL;
-    else if (op == CAstOperator.OP_POW) return BinaryOpInstruction.Operator.POW;
     else if (op == CAstOperator.OP_RSH) return ShiftInstruction.Operator.SHR;
     else if (op == CAstOperator.OP_SUB) return BinaryOpInstruction.Operator.SUB;
     else if (op == CAstOperator.OP_URSH) return ShiftInstruction.Operator.USHR;
@@ -3308,6 +3307,7 @@ public abstract class AstTranslator extends CAstVisitor<AstTranslator.WalkContex
     else if (op == CAstOperator.OP_BIT_OR) return BinaryOpInstruction.Operator.OR;
     else if (op == CAstOperator.OP_BIT_XOR) return BinaryOpInstruction.Operator.XOR;
     else if (op == CAstOperator.OP_CONCAT) return CAstBinaryOp.CONCAT;
+    else if (op == CAstOperator.OP_POW) return CAstBinaryOp.POW;
     else if (op == CAstOperator.OP_EQ) return CAstBinaryOp.EQ;
     else if (op == CAstOperator.OP_STRICT_EQ) return CAstBinaryOp.STRICT_EQ;
     else if (op == CAstOperator.OP_GE) return CAstBinaryOp.GE;

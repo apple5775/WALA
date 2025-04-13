@@ -14,6 +14,7 @@ import com.ibm.wala.shrike.shrikeBT.IBinaryOpInstruction;
 
 public enum CAstBinaryOp implements IBinaryOpInstruction.IOperator {
   CONCAT,
+  POW,
   EQ,
   NE,
   LT,
